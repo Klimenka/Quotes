@@ -15,12 +15,10 @@ class MainActivity : AppCompatActivity(), Callback<List<Quote>> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recyclerview)
-        println("hello")
         val retrofit = Retrofit.Builder()
             .baseUrl("https://programming-quotes-api.herokuapp.com/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
-        println("hello again")
         val service = retrofit.create(MyService::class.java)
         service.quotes().enqueue(this)
     }
@@ -31,7 +29,6 @@ class MainActivity : AppCompatActivity(), Callback<List<Quote>> {
 
     override fun onResponse(call: Call<List<Quote>>, response: Response<List<Quote>>) {
         if (response.isSuccessful && response.body() != null) {
-            println(response.body())
             val quotes= response.body() as List<Quote>
             this.recyclerview.layoutManager = LinearLayoutManager(this)
             this.recyclerview.adapter = MyAdapter(this, quotes)
